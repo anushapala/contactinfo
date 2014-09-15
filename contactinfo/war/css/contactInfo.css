@@ -1,0 +1,84 @@
+@CHARSET "ISO-8859-1";
+
+#nav-div ul>li a
+	{
+   		cursor : pointer !important;
+   	}
+   	
+#userimage
+ {
+ 
+ 	height: 15px;
+ }
+ 
+.delcontact
+{
+	position: absolute;
+	left: 75%;
+	bottom: 25%;
+}
+#logout
+{
+	position: relative;
+	left: 35%;
+	top:8px;
+	padding: 10px 10px;
+	border-radius: 25px;
+}
+
+#search
+{
+	padding: 7px 16px;
+	
+}
+#authenticate
+{
+	width: 30%; 
+	position: relative;
+	left: 475px;
+	top: 110px;
+}
+.contact_settings{
+    position: absolute;
+    right: 0;
+    top: 10%;
+}
+
+.dl-horizontal{
+	
+	color:#ffffff;
+	top: 75px;
+	position: absolute; 
+	left: 10%;
+}
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus
+{
+	background-color: #2D3033;
+	border-color: #2D3033;
+
+}
+
+img
+{
+	height: 40px;
+}
+
+
+#authenticate ul li a
+{
+	color: #FFFFFF;
+	
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus 
+{
+
+	background-color:transparent;
+	border:0px;
+	cursor:pointer !important;
+}
+#contactMain
+{
+	color:#ffffff;
+}
