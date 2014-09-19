@@ -11,6 +11,11 @@
  	height: 15px;
  }
  
+#profileimage
+{
+	height: 150px;
+}
+ 
 .delcontact
 {
 	position: absolute;

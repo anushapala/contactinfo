@@ -18,13 +18,13 @@ $(document).ready(function(){
 		   }
 		   
 		   response = JSON.parse(response);
-		   console.log(response)
+		   console.log(response); 
 		    for(index in response){
 		    	
 		     var contact = response[index];
 		     
 		     contactList[contact.contactKey]=contact;
-		     
+		   
 		     createContact(contact);
 		     
 		    }
@@ -134,8 +134,8 @@ $(document).ready(function(){
 	function searchContact()
 	{
 		
-		var inputString=$("#searchString").val();
-		
+		var inputString=$("#searchString").val();	
+	
 		$.ajax({
 			
 			type:'POST',
@@ -187,14 +187,7 @@ $(document).ready(function(){
 			}
 		});
 	}
-	
-	
-	function google()
-	{
-		
-		
-		
-	}
+
 
 	
 	function createContact(contact){
@@ -239,6 +232,7 @@ $(document).ready(function(){
 		contact_a.appendChild(contact_settings); 
 		
 		$("#contactlist").append(contact_a);
+		//contactList.sort();
 	 
  }
  
@@ -269,8 +263,115 @@ $(document).ready(function(){
 	  
 	    
 	}
-	
-	
-	
-	
 
+	window.fbAsyncInit = function() {
+	    FB.init({
+	      appId      : '281799258677339', // Set YOUR APP ID
+	      status     : false, // check login status
+	      cookie     : true, // enable cookies to allow the server to access the session
+	      xfbml      : true  // parse XFBML
+	    });
+	    
+	    (function(d){
+	        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+	        if (d.getElementById(id)) {return;}
+	        js = d.createElement('script'); js.id = id; js.async = true;
+	        js.src = "//connect.facebook.net/en_US/all.js";
+	        ref.parentNode.insertBefore(js, ref);
+	      }(document));
+
+	    FB.Event.subscribe('auth.authResponseChange', function(response) 
+		    {
+		     if (response.status === 'connected') 
+		    {
+		    	 
+		    	 getUserInfo();
+		        //document.getElementById("message").innerHTML +=  "<br>Connected to Facebook";
+		        //SUCCESS
+		 
+		    }    
+		    else if (response.status === 'not_authorized') 
+		    {
+		        //document.getElementById("message").innerHTML +=  "<br>Failed to Connect";
+		 		alert('log in to app');
+		        //FAILED
+		    } else 
+		    {
+		        //document.getElementById("message").innerHTML +=  "<br>Logged Out";
+		 		alert('log in to faceboook');
+		        //UNKNOWN ERROR
+		    }
+		    }); 
+		 
+		    };
+		 
+		    function Login()
+		    {
+		        FB.login(function(response) {
+		           if (response.authResponse) 
+		           {
+		        	   console.log(response);
+		        	} else 
+		            {
+		             console.log('User cancelled login or did not fully authorize.');
+		           	}
+		         },{scope: 'public_profile,email,user_photos'});
+
+		    } 
+			function getUserInfo() {
+				
+				
+	    			FB.api('/me', function(response) {
+							console.log(response); 
+							var Firstname=response.first_name;
+							var Lastname=response.last_name;
+							var username=response.name;
+							var email=response.email;
+							FB.api('/me/picture?type=normal', function(response){	 
+								console.log("in")
+							      var fbprofile=response.data.url;
+							      //document.getElementById("userimage").innerHTML+=str;
+							
+							//var fbprofile=response.data.url;			
+							console.log("its here")
+							var userInfo={
+									"firstname":Firstname,
+									"lastname":Lastname,
+									"username":username,
+									"email_id":email,
+									"profileImage":fbprofile
+									};
+							console.log(userInfo);
+							$.ajax({
+								
+								type:'POST',
+								url:'/authentication/facebook.do',
+								data:{userDetails : JSON.stringify(userInfo)},
+								success : function(response)
+								{
+											console.log("success");	
+											if(response=="success")
+												{
+													var redirect ="/jsp/userProfile.jsp";
+													
+													window.location.href=redirect;							 
+												    
+												}	
+								},
+								
+								
+								error: function()
+								{
+									console.log("error rendering page");
+								}
+							});
+							
+							});		
+	});
+	    
+	}
+
+
+	
+	
+	

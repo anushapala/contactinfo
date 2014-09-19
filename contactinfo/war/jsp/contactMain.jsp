@@ -12,6 +12,8 @@
 </head>
 <body background="/images/Contact.jpg" id="contactMain">
 
+<div id="fb-root"></div>
+
 <nav class="navbar navbar-inverse" role="navigation">
   	<div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -38,13 +40,13 @@
 <div id="authenticate">
 
 	<ul class="nav nav-tabs" role="tablist">
-		<li class="active auth"><a href="#signUp" role="tab" data-toggle="tab"><b>Signup</b></a></li>
-  		<li class="pull-right auth"><a href="#login" role="tab" data-toggle="tab" ><b>Login</b></a></li>
+  		<li class=" active auth"><a href="#login" role="tab" data-toggle="tab" ><b>Login</b></a></li>
+  		<li class=" auth pull-right"><a href="#signUp" role="tab" data-toggle="tab"><b>Signup</b></a></li>
 	</ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div class="tab-pane active" id="signUp">
+  <div class="tab-pane"id="signUp" >
   
   	<div class="modal-body">
         
@@ -81,8 +83,8 @@
   
   </div>
   
+  <div class="tab-pane active"id="login" >
   
-  <div class="tab-pane" id="login">
   	
       <div class="modal-body">
         
@@ -98,25 +100,37 @@
   		</div>
   		
   		<button type="submit" class="btn btn-default">Submit</button>
-  		<div class="pull-right">
+		</form>
+		
+		<div>
   		<a href="/authentication/google.do">
-  			<span>
+  			<span id="googlebutton">
   				<img src="http://images.sb.a-cti.com/images/Google signin_Red_Long.png">
   			</span>
   		</a>
   		</div>
   		
-		</form>
-      </div>
-  </div>
+  		
+  		
+  		<div id="status">
+			<img src="/images/LoginWithFacebook.png" style="cursor:pointer;" onclick="Login()"/>
+		</div>
+  		
+  
+ 
+  	
+  		
+ 
+ </div>
 </div>
 </div>
-
 
 
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/jquery-1.11.1.min.js" type="text/javascript"><\/script>')</script>
+<script src="//connect.facebook.net/en_US/all.js"></script>
+<script  src="/js/contactinfo.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </body>
 </html>

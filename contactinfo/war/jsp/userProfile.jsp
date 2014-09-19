@@ -46,7 +46,6 @@ String  userId = (String)session.getAttribute("userId");
         <div class="collapse navbar-collapse" id="nav-div">
           <ul class="nav navbar-nav pull-right">
             <li class="active"><a href="/jsp/userProfile.jsp">Home</a></li>
-            <li><a data-toggle="modal" data-target="#addcontact" >Add</a></li>
             <li><a  class="btn btn-default btn-sm" id="logout" href="/logout.do">
   				<span class="glyphicon glyphicon-off"></span>
 			</a></li>
@@ -56,7 +55,7 @@ String  userId = (String)session.getAttribute("userId");
 </nav>
 
 <div id="userimage">
-<img src="/images/profile.png" alt="profile" class="img-circle" width="160px;">	
+<img src=<%out.println((String)session.getAttribute("profileImage")); %> alt="profile" class="img-circle" width="160px;" id="profileimage">	
   </div>
 	
 	<dl class="dl-horizontal">
@@ -154,7 +153,7 @@ String  userId = (String)session.getAttribute("userId");
 
 <div class="col-lg-6" style= " position: relative; top: 220px; left: 220px">
     <div class="input-group">
-      <input type="text" class="form-control" id="searchString" placeholder="enter search string" name="search_string">
+      <input type="text" class="form-control" id="searchString" placeholder="enter first name" name="search_string">
       <span class="input-group-btn">
         <!--<button class="btn btn-default" type="button">Go!</button>  -->
         <button type="button" class="btn btn-default btn-lg"  id="search" onClick="searchContact()">
@@ -171,11 +170,13 @@ String  userId = (String)session.getAttribute("userId");
 <!--model to  display the contact on front end -->
 
 <div class="list-group pull-right" style="width:250px;position:relative;right:4%">
-   <a href="#" class="list-group-item active">
+   <a href="#" class="list-group-item active" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addcontact">
       <h4 class="list-group-item-heading">
-        Contacts
+        Contacts<span class="glyphicon glyphicon-plus pull-right"></span>
       </h4>
+      
    </a>
+   
 		
    <div id="contactlist" style="position: relative; overflow-y: auto; height: 413px;">
    

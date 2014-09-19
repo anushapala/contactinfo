@@ -5,13 +5,13 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.Key;
 
-
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 public class User
 {
-	@PrimaryKey
+	@Persistent
 	//@Persistent(valueStrategy=IdGeneratorStrategy.IDENTITY)
 	private String userId;
 	
@@ -24,7 +24,13 @@ public class User
 	@Persistent
 	private String password;
 	@Persistent
+	private String gender;
+	@Persistent
+	private String profileImage;
+	@PrimaryKey
 	private String email_id;
+	
+	
 	
 	
 	public String getUserId() {
@@ -74,5 +80,21 @@ public class User
 	public void setEmail_id(String email_id) {
 		this.email_id = email_id;
 	}	
+	
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
 	
 }
