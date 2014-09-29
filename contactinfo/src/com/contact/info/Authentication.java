@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import com.google.gson.Gson;
 
 
 @Controller
@@ -41,7 +41,7 @@ public class Authentication {
 						+ "&access_type=online"
 						+ "&approval_prompt=force";
 				
-				response.sendRedirect(requestUrl);
+			response.sendRedirect(requestUrl);
 				
 			}
 			catch (Exception e){
@@ -195,6 +195,35 @@ public class Authentication {
 			
 			return "success";
 		}
+		
+		@RequestMapping(value="/validation",method=RequestMethod.POST)
+		public @ResponseBody String signupEmailValidation(HttpServletRequest request, HttpServletResponse response)
+		{
+			
+			String email=request.getParameter("signup_email");
+			
+			User currentUser=ServiceHelper.getUserByEmail(email);
+			HashMap<String,Object> responseMap=new HashMap<String,Object>();
+			
+		
+			if(currentUser!=null)
+			{
+				System.out.println("email exists");
+				responseMap.put("success", true);
+			}
+			
+			else
+			{
+				System.out.println("not exists");
+				responseMap.put("success", false);
+			}
+			
+			Gson gson=new Gson();
+			String responseJson = gson.toJson(responseMap);
+			
+			return responseJson;
+		}
+		
 }
 
 

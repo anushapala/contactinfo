@@ -2,10 +2,68 @@
 var contactList = {};
 $(document).ready(function(){
 	  
-	  getContactsByUser();
-	  
+	  getContactsByUser(); 
 });
-	 
+
+$('#upload').hide();
+$('#userimage').hover(function(){
+	$('#upload').show();
+	}, function(){$('#upload').hide();
+	});
+
+
+$('#upload').click(function(){
+	$('#inputupload').trigger('click');	
+});
+
+$('#inputupload').on('change',function(){
+	
+	var input=$('#inputupload').val();
+	console.log(input);
+	if(input==null)
+		{
+			return;
+		}
+	else
+		{
+			processUploadImageRequest();
+		}
+});
+
+function processUploadImageRequest(){
+
+
+	$.ajaxFileUpload
+	(
+    {
+        url:'uploadImageUrl', 
+        secureuri:false,
+        fileElementId:'inputupload',
+        dataType: 'json',
+        success: function (data, status)
+        {
+            if(typeof(data.error) != 'undefined')
+            {
+                if(data.error != '')
+                {
+                    alert(data.error);
+                }else
+                {
+                    alert(data.msg);
+                }
+            }
+        },
+        error: function (data, status, e)
+        {
+            alert(e);
+        }
+    }
+)
+
+return false;
+}
+
+
 	 function getContactsByUser(){
 	  
 	  $.ajax({
@@ -130,42 +188,6 @@ $(document).ready(function(){
 		});
 		
 	}	
-	
-	function searchContact()
-	{
-		
-		var inputString=$("#searchString").val();	
-	
-		$.ajax({
-			
-			type:'POST',
-			url:'/search.do',
-			data:"search_string="+inputString,
-			success: function(response)
-			{
-				console.log(response);
-				if(response == null || response == ""){
-					   return;
-				   }
-				 response = JSON.parse(response);
-				    for(index in response){
-				    	
-				     var contact = response[index];
-				     
-				     contactList[contact.contactKey]=contact;
-				     
-				     displayContact(contact);
-				     
-				    }
-				
-			},error:function(response)
-			{
-				alert(response.message);
-			}
-			
-		});
-	}
-	
 	function deleteContact(contactKey)
 	{
 		
@@ -188,6 +210,24 @@ $(document).ready(function(){
 		});
 	}
 
+	
+	$("#searchString").keyup(function(event){
+	     var filter = $("#searchString").val();
+	     if(filter!=""){
+	      $("#contactlist").find("a").hide();
+	      filter = filter.toLowerCase();
+	      $.each(contactList,function(index,contact){
+	       if(contact.contact_firstname.toLowerCase().indexOf(filter)!=-1 ||
+	        contact.contact_lastname.toLowerCase().indexOf(filter)!=-1 ||
+	        contact.contact_email_id.toLowerCase().indexOf(filter)!=-1 ||
+	        contact.contact_mobile_no.indexOf(filter)!=-1){
+	        $("#"+contact.contactKey).show();
+	       }
+	      });
+	     }else{
+	      $("#contactlist").find("a").show();
+	     }
+	 });
 
 	
 	function createContact(contact){
@@ -235,35 +275,9 @@ $(document).ready(function(){
 		//contactList.sort();
 	 
  }
- 
-	function displayContact(contact)
-	{
-		
-		var contact_a = document.createElement("a");
-		contact_a.setAttribute('class',"list-group-item");
-		contact_a.setAttribute('id',contact.contactKey);
-		
-		var h4   = document.createElement("h4");
-		h4.setAttribute("class","list-group-item-heading");
-		h4.innerHTML = contact.contact_firstname+" "+contact.contact_lastname;
-		contact_a.appendChild(h4);
-
-		var p = document.createElement("p");
-		p.setAttribute("class","list-group-item-text");
-		p.innerHTML = contact.contact_email_id+"</br>"+contact.contact_mobile_no;
-		contact_a.appendChild(p);
-		
-	    $("#displayList").append(contact_a);
-	    $("#searchString").keyup(function()
-	    		{
-	    			$("#displayList").html("");
-	    			//$("#displayList").load();
-	    			//document.location.reload();
-	    		});
-	  
-	    
-	}
-
+	
+	
+	
 	window.fbAsyncInit = function() {
 	    FB.init({
 	      appId      : '281799258677339', // Set YOUR APP ID

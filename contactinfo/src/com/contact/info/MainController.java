@@ -9,10 +9,7 @@ import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.tools.ant.types.CommandlineJava.SysProperties;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,6 +33,9 @@ public class MainController {
 		String password=request.getParameter("signup_password");
 		String emailid=request.getParameter("signup_email");
 		
+		password=ServiceHelper.passwordEncryption(password);
+		
+		System.out.println("encrypted password is:"+password);
 
 		PersistenceManager pm= PMF.get().getPersistenceManager();
 		
@@ -81,13 +81,20 @@ public class MainController {
 			email=email.trim();
 			password=password.trim();
 			
+			password=ServiceHelper.passwordEncryption(password);
+			System.out.println(password);
+			
+		
 			Query query=pm.newQuery(User.class);
 			query.declareParameters("String loginemail,String loginpass");
 			query.setFilter("email_id==loginemail&& password==loginpass");
+		
+			System.out.println("password successfully matches");
 			
 			try
 			{
 				List<User> results=(List<User>)query.execute(email,password);
+				System.out.println(results);
 				
 				if (!results.isEmpty()) 
 				  {
@@ -195,7 +202,7 @@ public class MainController {
 			contact.setContact_mobile_no(contactMobile);
 			contact.setUserId(userId);
 			contact.setContactKey(UUID.randomUUID().toString());
-			
+
 			pm.makePersistent(contact);
 			
 			HashMap<String,Object> responseMap = new HashMap<String,Object>();
@@ -306,49 +313,7 @@ public class MainController {
 		
 	}
 	
-	
-	@RequestMapping(value="/search",method=RequestMethod.POST)
-	public @ResponseBody String searchContact(HttpServletRequest request , HttpServletResponse response)
-	{
-		
-		System.out.println("in my search method");
-		
-		String searchString =request.getParameter("search_string");
-		searchString=searchString.trim();
-		System.out.println(searchString);
 
-		PersistenceManager pm=PMF.get().getPersistenceManager();
-		String json="";
-		Query query=pm.newQuery(Contact.class);
-		query.declareParameters("String sstring");
-		
-		query.setFilter("contact_firstname==sstring");
-
-		try
-		{
-			List<Contact> results=(List<Contact>)query.execute(searchString);
-			System.out.println(results.size());
-		
-			if (!results.isEmpty())
-			{
-				//response.getWriter().write(json);
-				Gson gson=new Gson();
-				json=gson.toJson(results);
-			}
-		}
-		
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			pm.close();
-		}
-		
-		return json;
-	}
-	
 	
 	@RequestMapping(value="/logout",method=RequestMethod.GET)
 	public  String logout(HttpServletRequest request,HttpServletResponse response)

@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/css/contactInfo.css">
 </head>
-<body background="/images/Contact.jpg" id="contactMain">
+<body background="/images/Contact.jpg" no-repeat id="contactMain">
 
 <div id="fb-root"></div>
 
@@ -40,8 +40,8 @@
 <div id="authenticate">
 
 	<ul class="nav nav-tabs" role="tablist">
-  		<li class=" active auth"><a href="#login" role="tab" data-toggle="tab" ><b>Login</b></a></li>
-  		<li class=" auth pull-right"><a href="#signUp" role="tab" data-toggle="tab"><b>Signup</b></a></li>
+  		<li class=" active auth"><a href="#login" role="tab" data-toggle="tab" ><b>SignIn</b></a></li>
+  		<li class=" auth pull-right"><a href="#signUp" role="tab" data-toggle="tab"><b>SignUp</b></a></li>
 	</ul>
 
 <!-- Tab panes -->
@@ -52,9 +52,11 @@
         
         <form role="form" action="/signup.do" method="post">
         
-        <div class="form-group">
-    		<label for="exampleInputEmail1">Email address <span style="color:red;">*</span></label>
-    		<input type="email" class="form-control"  id="exampleInputEmail1" placeholder="Enter email" name="signup_email" required>
+        <div class="form-group  has-feedback" id="emailCheck">
+    		<label  for="inputSuccess2">Email address <span style="color:red;">*</span></label>
+    		<input type="email" class="form-control"  id="InputEmail" placeholder="Enter email" name="signup_email" required>
+    		<span class="glyphicon glyphicon-remove form-control-feedback ok" id="emailerror"></span>
+    		<span class="glyphicon glyphicon-ok form-control-feedback error" id="emailok"></span>
   		</div>
   		
         <div class="form-group">
@@ -72,11 +74,16 @@
     		<input type="text" class="form-control"  id="exampleInputlastname" placeholder="Enter Last name" name="signup_lastname" required>
   		</div>
   
-  		<div class="form-group">
+  		<div class="form-group  has-feedback" id="passwordCheck">
     		<label for="exampleInputPassword1">Password</label>
-    		<input type="password" class="form-control"  id="exampleInputPassword1" placeholder="Password" name="signup_password" required>
+    		<input type="password" class="form-control"  id="InputPassword" placeholder="Password" name="signup_password" required>
+    		<a id="passwordinfo" data-toggle="popover" title="Password Rules" data-container="body" data-content="should contain min. 8 characters,atlest 1 uppercase,1 lowercase,1 digit and 1 spl.character">
+  				<span class="glyphicon glyphicon-info-sign"></span></a>
+    		<span class="glyphicon glyphicon-remove form-control-feedback ok" id="passerror"></span>
+    		<span class="glyphicon glyphicon-ok form-control-feedback error" id="passok"></span>
   		</div>
-  		<button type="submit" class="btn btn-default">Submit</button>
+  		
+  		<button type="submit" class="btn btn-default">SignUp</button>
   		
 </form>
       </div>
@@ -91,7 +98,7 @@
         <form role="form" action="/login.do" method="post">
         <div class="form-group">
     		<label for="exampleInputEmail1">Email</label>
-    		<input type="text" class="form-control"  id="exampleInputemail" placeholder="Enter email" name="login_email" required>
+    		<input type="text" class="form-control"  id="exampleInputemail" placeholder="Email" name="login_email" required>
   		</div>
   		
   		<div class="form-group">
@@ -99,28 +106,27 @@
     		<input type="password" class="form-control"  id="exampleInputPassword1" placeholder="Password" name="login_password" required>
   		</div>
   		
-  		<button type="submit" class="btn btn-default">Submit</button>
+  		<button type="submit" class="btn btn-default">SignIn</button>
 		</form>
 		
+		
+		<hr>
 		<div>
   		<a href="/authentication/google.do">
   			<span id="googlebutton">
   				<img src="http://images.sb.a-cti.com/images/Google signin_Red_Long.png">
   			</span>
   		</a>
+  		
+  		<span>
+  		<img src="/images/facebook-login-button.png" style="cursor:pointer;" onclick="Login()"/>
+  		
+  		</span>
   		</div>
   		
   		
   		
-  		<div id="status">
-			<img src="/images/LoginWithFacebook.png" style="cursor:pointer;" onclick="Login()"/>
-		</div>
-  		
-  
- 
-  	
-  		
- 
+  			
  </div>
 </div>
 </div>
@@ -131,6 +137,7 @@
 <script>window.jQuery || document.write('<script src="js/jquery-1.11.1.min.js" type="text/javascript"><\/script>')</script>
 <script src="//connect.facebook.net/en_US/all.js"></script>
 <script  src="/js/contactinfo.js"></script>
+<script  src="/js/validation.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </body>
 </html>

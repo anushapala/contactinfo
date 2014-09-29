@@ -7,10 +7,11 @@ import java.util.UUID;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
-import com.google.appengine.labs.repackaged.org.json.JSONObject;
+
 
 public class ServiceHelper {
 
@@ -127,8 +128,8 @@ public class ServiceHelper {
 			System.out.println("entered the try in the helper class to execute email query");
 			
 			Query query = pm.newQuery(User.class);
-			query.declareParameters("String googleemail");
-			query.setFilter("email_id==googleemail");
+			query.declareParameters("String email");
+			query.setFilter("email_id==email");
 			
 			List<User> userList = (List<User>)query.execute(email);
 			System.out.println("size of hte list"+userList.size());
@@ -148,5 +149,13 @@ public class ServiceHelper {
 	}
 	
 	
+	
+	public static String passwordEncryption(String passwordToEncode)
+	{
+		System.out.println("password to encode is:"+passwordToEncode);
+		
+		byte [] passwordToEncodeBytes = passwordToEncode.getBytes();
+		  return Base64.encodeBase64String(passwordToEncodeBytes);
+	}
 	
 }

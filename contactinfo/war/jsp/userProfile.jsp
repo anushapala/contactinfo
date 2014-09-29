@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
+    <%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory" %>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreService" %>
+
+<%
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+%>
+    
 <%
 
 String  userId = (String)session.getAttribute("userId");
@@ -22,13 +29,12 @@ String  userId = (String)session.getAttribute("userId");
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>user profile</title>
-
-
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
 <link rel="stylesheet"  type="text/css" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" type="text/css" href="/css/contactInfo.css">
 </head>
-<body background="/images/userbg.jpg">
+<body background="/images/userbg.jpg" no-repeat>
 <nav class="navbar navbar-inverse" role="navigation">
   	<div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -55,9 +61,19 @@ String  userId = (String)session.getAttribute("userId");
 </nav>
 
 <div id="userimage">
-<img src=<%out.println((String)session.getAttribute("profileImage")); %> alt="profile" class="img-circle" width="160px;" id="profileimage">	
+<img src=<%out.println((String)session.getAttribute("profileImage")!=null?(String)session.getAttribute("profileImage"):"/images/profile.png"); %> alt="profile" class="img-circle" width="160px;" id="profileimage">	
+  
+  <button id="upload" type="button"  class="btn btn-default btn-sm"><span class=" glyphicon glyphicon-upload"></span>
+  	</button>
+  	
+  	<script>var uploadImageUrl = <%=blobstoreService.createUploadUrl("/upload") %>;
+  	</script>
+  
+  <form action="<%= blobstoreService.createUploadUrl("/upload") %>" method="post" enctype="multipart/form-data">
+  <input type="file" name="myFile" id="inputupload"> 
+ </form>
   </div>
-	
+
 	<dl class="dl-horizontal">
   		<dt>First Name</dt>
   			<dd><%out.println((String)session.getAttribute("firstname")); %></dd>
@@ -68,8 +84,6 @@ String  userId = (String)session.getAttribute("userId");
   		<dt>Email ID</dt>
   			<dd><%out.println((String)session.getAttribute("emailid")); %></dd>
 	</dl>
-	
-	
 
 
 <div class="modal fade" id="addcontact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -151,32 +165,18 @@ String  userId = (String)session.getAttribute("userId");
   </div>
 </div>
 
-<div class="col-lg-6" style= " position: relative; top: 220px; left: 220px">
-    <div class="input-group">
-      <input type="text" class="form-control" id="searchString" placeholder="enter first name" name="search_string">
-      <span class="input-group-btn">
-        <!--<button class="btn btn-default" type="button">Go!</button>  -->
-        <button type="button" class="btn btn-default btn-lg"  id="search" onClick="searchContact()">
-  			<span class="glyphicon glyphicon-search" ></span>
-		</button>
-      </span>
-    </div><!-- /input-group -->
-    <div id="displayList" style="position: relative;height: 20px;">
-   
-   </div>
-  </div><!-- /.col-lg-6 -->
-</div><!-- /.row -->
-
 <!--model to  display the contact on front end -->
 
 <div class="list-group pull-right" style="width:250px;position:relative;right:4%">
    <a href="#" class="list-group-item active" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addcontact">
       <h4 class="list-group-item-heading">
         Contacts<span class="glyphicon glyphicon-plus pull-right"></span>
-      </h4>
-      
+      </h4>         
    </a>
-   
+   <div class="input-group">
+      <input type="text" class="form-control" id="searchString" placeholder="search" name="search_string">
+    </div><!-- /input-group -->
+    
 		
    <div id="contactlist" style="position: relative; overflow-y: auto; height: 413px;">
    
@@ -185,7 +185,7 @@ String  userId = (String)session.getAttribute("userId");
 </div><!-- /.row -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/jquery-1.11.1.min.js" type="text/javascript"><\/script>')</script>
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
+<script type="text/javascript" src="/js/ajaxfileupload.js"></script>
 <script src="/bootstrap/js/bootstrap.min.js"></script>
 <script  src="/js/contactinfo.js"></script>
 </body>

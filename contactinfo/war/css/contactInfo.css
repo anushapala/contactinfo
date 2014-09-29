@@ -9,6 +9,7 @@
  {
  
  	height: 15px;
+ 	width: 10px;
  }
  
 #profileimage
@@ -31,9 +32,24 @@
 	border-radius: 25px;
 }
 
-#search
+.search
 {
-	padding: 7px 16px;
+	padding: 7px 7px 6px 7px;
+	position: absolute;
+	left: 105px;
+	top: -3px;
+}
+
+.input-group .form-control
+{
+	width: 140%;
+	
+}
+
+dl dt
+{
+	
+	text-align:left;
 	
 }
 #authenticate
@@ -86,4 +102,55 @@ img
 #contactMain
 {
 	color:#ffffff;
+}
+
+
+.calendar
+{
+	
+	width: 20px;
+	position: absolute;
+	top: 60%;
+	left: 20%;
+	
+}
+
+#passwordinfo
+{
+	position: absolute;
+	left: 105%;
+	top: 35px;
+}
+
+.popover-title
+{
+	color:black;
+	text-align:center;
+}
+
+.popover-content
+{
+	
+	color:black;
+}
+
+#upload
+
+{
+	
+	position: absolute;
+	top: 30%;
+	left: 5%;
+	padding-left: 0%;
+	border-radius: 69%;
+}
+
+#upload span
+{
+	
+	left: 5px;
+}
+#inputupload
+{
+	display:none;
 }
